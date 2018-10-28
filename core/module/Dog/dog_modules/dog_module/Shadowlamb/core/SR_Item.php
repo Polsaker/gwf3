@@ -877,10 +877,26 @@ class SR_Item extends GDO
 		return true;
 	}
 	
+	/* Returns only the modifiers of an item (excluding the name) */
+	public function getModifiers()
+	{
+		if ($this->modifiers === NULL)
+		{
+			return '';
+		}
+		$mod = '';
+		foreach ($this->modifiers as $key => $value)
+		{
+			$mod .= sprintf(',%s:%s', $key, $value);
+		}
+		return substr($mod, 1);
+	}
+
+	
 	public static function canMergeModifiersLength(SR_item $item, SR_Rune $rune)
 	{
 		$string = $item->getItemName();
-		$string .= '_ofxxxxxxx_'.$rune->displayModifiersB($item->getOwner());
+		$string .= '_ofxxxxxxx_'.$rune->getModifiers();
 		return strlen($string) <= 255;
 	}
 	
